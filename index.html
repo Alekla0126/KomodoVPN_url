@@ -37,20 +37,28 @@
 </head>
 <body>
   <h1>Get KomodoVPN</h1>
-  <button onclick="redirectUser()">Download Now</button>
+  <button id="downloadBtn">Download Now</button>
 
   <script>
-    function redirectUser() {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    document.getElementById("downloadBtn").addEventListener("click", function () {
+      const ua = navigator.userAgent || navigator.vendor || window.opera;
 
-      if (/android/i.test(userAgent)) {
-        window.location.href = "https://play.google.com/store/apps/details?id=com.alekla0126.vpn&pcampaignid=web_share";
-      } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        window.location.href = "https://apps.apple.com/mx/app/komodo-network-utilities-vpn/id6569245786?l=en-GB";
+      const androidLink = "https://play.google.com/store/apps/details?id=com.alekla0126.vpn&pcampaignid=web_share";
+      const iosLink = "https://apps.apple.com/mx/app/komodo-network-utilities-vpn/id6569245786?l=en-GB";
+
+      const isAndroid = /android/i.test(ua);
+      const isIOS = /iPhone|iPad|iPod/i.test(ua);
+      const isMacTouch = /Macintosh/i.test(ua) && navigator.maxTouchPoints && navigator.maxTouchPoints > 1;
+
+      if (isAndroid) {
+        window.location.replace(androidLink);
+      } else if (isIOS || isMacTouch) {
+        window.location.replace(iosLink);
       } else {
-        alert("Please visit this link on your mobile device to install KomodoVPN.");
+        // Optional fallback
+        alert("Please open this link on your phone or a compatible device.");
       }
-    }
+    });
   </script>
 </body>
 </html>
